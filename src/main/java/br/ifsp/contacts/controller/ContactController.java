@@ -1,5 +1,6 @@
 package br.ifsp.contacts.controller;
 
+import br.ifsp.contacts.exception.ResourceNotFoundException;
 import br.ifsp.contacts.model.Contact;
 import br.ifsp.contacts.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,8 +114,8 @@ public class ContactController {
     @PatchMapping("/{id}")
     public Contact atualizaContatoPorCampo (@PathVariable Long id, @RequestBody Contact contact){
         Contact contatoExistente = contactRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Contato não encontrado: " + id));
-        
+            .orElseThrow(() -> new ResourceNotFoundException("Contato não encontrado: " + id));
+
         if(contact.getNome() != null) {
             contatoExistente.setNome(contact.getNome());
         }
